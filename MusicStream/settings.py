@@ -32,6 +32,9 @@ AUTH_USER_MODELS='account.Account'
 # Application definition
 
 INSTALLED_APPS = [
+    'account',
+    'artist',
+    'music',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
