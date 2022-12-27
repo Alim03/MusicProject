@@ -1,4 +1,36 @@
 {% extends 'base.html' %}
-  <!-- Carousel Begin -->
 
-  <!-- Carousel End -->
+
+{% block 'content' %}
+
+<div class="container marketing">
+    <br>
+
+    {% for album in albums %}
+    <a style="text-decoration: none;color:#5A5A5A" href="{% url 'album-detail' album.id %}">
+        {% include 'music/includes/album.html' %}
+    </a>
+    {% endfor %}
+      <hr class="featurette-divider">
+
+    <h1 class="ml-4">Top Artists</h1>
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+        {% for artist in artists %}
+             {% include 'music/includes/artist.html' %}
+        {% endfor %}
+    </div>
+
+    <h1 class="ml-4">Top Songs</h1>
+    <br>
+    <div class="row">
+        {% for song in songs %}
+            {% include 'music/includes/song.html' %}
+        {% endfor %}
+    </div>
+
+</div><!-- /.container -->
+  
+
+
+
+{% endblock%}

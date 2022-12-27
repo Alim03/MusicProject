@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+
+{% block 'content' %}
+<br>
+<br>
+<div class="container">
+    {% include 'music/includes/album.html' %}
+{% comment %} <img style='width:500px;height:500px;' src="{{album.cover.url}}" class="img-fluid " alt="Responsive image"> {% endcomment %}
+
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Album</th>
+        <th scope="col">Artist</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for song in album_songs %}
+      <tr>
+        <th scope="row">{{song.id}}</th>
+        <td>{{song.title}}</td>
+        <td>{{song.album.title}}</td>
+        <td>{{song.artist.name}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+  {% endblock%}

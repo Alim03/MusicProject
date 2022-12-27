@@ -14,6 +14,8 @@
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
 
+    {% block 'css_files' %} {% endblock%} 
+
 
 
     <!-- Custom styles for this template -->
@@ -51,37 +53,6 @@
       
     {% block 'content' %}{% endblock%}
 
-      <!-- Marketing messaging and featurettes
-      ================================================== -->
-      <!-- Wrap the rest of the page in another container to center all the content. -->
-
-      <div class="container marketing">
-        <br>
-
-        {% include 'includes/round_element.html' %}
-
-
-        <!-- START THE FEATURETTES -->
-
-       
-
-        {% include 'includes/album.html' %}
-
-          <!-- /END THE FEATURETTES -->
-          <hr class="featurette-divider">
-
-
-
-
-
-          
-      
-
-         {% include 'includes/artist.html' %}
-
-
-      </div><!-- /.container -->
-      
 
       <!-- FOOTER -->
       <footer class="container">

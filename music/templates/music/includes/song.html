@@ -1,0 +1,16 @@
+<!-- Three columns of text below the carousel -->
+
+
+
+
+
+    <div class="col-lg-4">
+      <img class="rounded-circle" src="{{song.album.cover.url}}" alt="Generic placeholder image" width="140" height="140">
+      <h2><a href="{% url 'play' song.id %}">{{song.title}}</a></h2>
+      <p>By {{song.artist.name}}</p>
+    </div><!-- /.col-lg-4 -->
+
+
+    
+
+<!-- /.row -->

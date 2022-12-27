@@ -1,0 +1,16 @@
+
+<div class="row featurette">
+  <div class="col-md-7 {%if not forloop.first or not forloop.last %}order-md-2{% endif %} ">
+    <h2 class="featurette-heading">{{album.title}}</h2>
+    <p class="lead">{{album.released_date}} {{album.artist.name}}</p>
+  </div>
+  <div class="col-md-5 {%if forloop.first or forloop.last %}order-md-2{% endif %}">
+    <img src="{{album.cover.url}}" class="featurette-image img-fluid mx-auto"  alt="Generic placeholder image">
+  </div>
+</div>
+<hr class="featurette-divider">
+
+
+
+
+
