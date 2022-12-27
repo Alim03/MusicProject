@@ -36,7 +36,7 @@ def get_profile_image_filepath(self, filename):
     return f''
 
 
-def get_default_profile_image(self):
+def get_default_profile_image():
     return f''
 
 
@@ -51,12 +51,12 @@ class Account(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    profile_image = models.ImageField(max_length=300, upload_to=get_profile_image_filepath,
+    profile_image = models.ImageField(max_length=300, upload_to='images',
                                       null=True, blank=True, default=get_default_profile_image)
 
     objects = MyAccountManager()
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = 'username'
+    REQUIRED_FIELDS = ('username',)
 
     def __str__(self):
         return self.username
@@ -74,7 +74,11 @@ class Account(AbstractBaseUser):
 class Playlist(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    cover=models.ImageField(upload_to='images',null=True)
     song = models.ManyToManyField(Song)
+
+    def __str__(self):
+        return self.name
 
 
 class Review(models.Model):
