@@ -33,5 +33,5 @@ class AlbumDetail(DetailView):
         context = super().get_context_data(**kwargs)
         id = self.kwargs['pk']
         album=Album.objects.get(pk=id)
-        context["album_songs"] = album.song_set.all()
+        context["songs"] = album.song_set.all()
         return context

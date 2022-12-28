@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+
+{% block 'content'%}
+<br>
+<div class="container ">
+<div class="card mb-3 p-3">
+    <img class="card-img-top" src="{{artist.image.url}}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{artist.name}}</h5>
+      <p class="card-text">{{artist.about}}</p>
+   
+    </div>
+<br>
+
+{% for album in albums %}
+    <div class="card" style="width: 15rem;">
+        <img class="card-img-top" src="{{album.cover.url}}" alt="Card image cap">
+        <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'album-detail' album.id %}">{{album.title}}</a></h5>
+        {% comment %} <p class="card-text">{% for genre in album.genre.all %}{{genre}}{% endfor %}</p> {% endcomment %}
+        <p class="card-text"><small class="text-muted">{{album.released_date}}</small></p>
+        </div>
+      </div>
+      {% endfor %}
+<br>
+{% include 'music/includes/playlist.html' %}
+    {% comment %} <div class="card-group">
+        {% for album in albums %}
+        <div class="card">
+          <img class="card-img-top" src="{{album.cover.url}}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{album.title}}</h5>
+            <p class="card-text">{% for genre in album.genre.all %}{{genre}}{% endfor %}</p>
+            <p class="card-text"><small class="text-muted">{{album.released_date}}</small></p>
+          </div>
+        </div>
+        {% endfor %}
+       
+          
+      </div>
+  </div> {% endcomment %}
+
+  
+
+</div>
+  {% endblock%}

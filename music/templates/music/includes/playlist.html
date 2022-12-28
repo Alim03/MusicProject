@@ -1,0 +1,25 @@
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Album</th>
+        <th scope="col">Artist</th>
+      </tr>
+    </thead>
+    <tbody id="playlist">
+        {% for song in songs %}
+        
+      <tr>
+        
+            <th scope="row">{{song.id}}</th>
+            
+            <td><a href="{{song.file.url}}">{{song.title}}  </a></td>   
+
+            <td>{{song.album.title}}</td>
+            <td>{{song.artist.name}}</td>
+        
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
