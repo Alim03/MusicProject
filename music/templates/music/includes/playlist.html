@@ -1,3 +1,4 @@
+
 <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -5,6 +6,9 @@
         <th scope="col">Title</th>
         <th scope="col">Album</th>
         <th scope="col">Artist</th>
+        {% if user.is_authenticated %}
+        <th scope="col">Like</th>
+        {% endif %}
       </tr>
     </thead>
     <tbody id="playlist">
@@ -18,7 +22,15 @@
 
             <td>{{song.album.title}}</td>
             <td>{{song.artist.name}}</td>
-           
+            {% if user.is_authenticated %}
+            <td>
+              <a href="{% url 'add-song-to-favorite' song.album.id song.id %}">
+              <div>
+                 <i class="heart fa fa-heart-o"></i>
+              </div>
+            </a>
+            </td>
+            {% endif %}
       </tr>
       {% endfor %}
     </tbody>

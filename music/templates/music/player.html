@@ -27,10 +27,7 @@
           <p class="mb-0">{{song.title}}</p>
   
           
-          <audio controls id="player">
-            <source src="{{song.file.url}}" type="audio/wav">
-            
-          </audio>
+          {% include 'music/includes/audio.html' %}
         
   
         </div>

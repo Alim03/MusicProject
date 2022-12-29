@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView, DetailView
 from .models import Artist, Song, Album
-
+from account.models import Account
+from django.http import HttpResponse
 
 
 class Index(ListView):
@@ -27,13 +28,22 @@ class Play(DetailView):
 
 class AlbumDetail(DetailView):
     template_name = 'music/album_detail.html'
-    context_object_name='album'
+    context_object_name = 'album'
     model = Album
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         id = self.kwargs['pk']
-        album=Album.objects.get(pk=id)
+        album = Album.objects.get(pk=id)
         context["songs"] = album.song_set.all()
         return context
 
+
+def add_song_to_favorite(request, pk, songId):
+    song = Song.objects.get(pk=songId)
+    try:
+        request.user.songs.get(pk=songId)
+        request.user.songs.remove(song)
+    except:
+        request.user.songs.add(song)
+    return HttpResponse()

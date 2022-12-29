@@ -13,6 +13,13 @@ class AccountAdmin(UserAdmin):
     list_filter = ()
     fieldsets = ()
 
+    # def get_fields(self, request, obj):
+    #     if request.user.is_superuser:
+    #         return ('id','email', 'username','password', 'date_joined',
+    #                 'last_login', 'is_admin','is_active', 'is_staff','is_superuser')
+        
+        
+
 
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Playlist)

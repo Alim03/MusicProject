@@ -53,6 +53,8 @@ class Account(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     profile_image = models.ImageField(max_length=300, upload_to='images',
                                       null=True, blank=True, default=get_default_profile_image)
+    songs = models.ManyToManyField(Song, blank=True)
+    artists = models.ManyToManyField(Artist, blank=True)
 
     objects = MyAccountManager()
     USERNAME_FIELD = 'email'
@@ -74,7 +76,7 @@ class Account(AbstractBaseUser):
 class Playlist(models.Model):
     name = models.CharField(max_length=100)
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
-    cover=models.ImageField(upload_to='images',null=True)
+    cover = models.ImageField(upload_to='images', null=True)
     song = models.ManyToManyField(Song)
 
     def __str__(self):

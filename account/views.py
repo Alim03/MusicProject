@@ -1,12 +1,18 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View, TemplateView
+from django.views.generic import View, TemplateView, ListView
 from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from .forms import RegistrationForm, AuthenticationForm
+from .models import Account
 
 
 class Index(TemplateView):
     template_name = 'account/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['songs'] = self.request.user.songs.order_by('-id').all()[:4]
+        return context
 
 
 class Register(View):
@@ -27,7 +33,7 @@ class Register(View):
         user = request.user
         if user.is_authenticated:
             return redirect('index')
-            
+
         form = RegistrationForm()
         return render(request, 'account/register.html', {'register_form': form})
 
@@ -52,6 +58,16 @@ class LogIn(View):
 
         form = AuthenticationForm()
         return render(request, 'account/login.html', {'login_form': form})
+
+
+class FavoriteSongs(TemplateView):
+    template_name = 'account/favorite_songs.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['songs'] = self.request.user.songs.all() 
+        return context
+    
 
 
 def logout_view(request):

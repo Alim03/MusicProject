@@ -4,3 +4,24 @@
     padding: 0;
     color: red;
 }
+.star {
+    font-size: 25px;
+      color:gold;
+  }
+  
+  .heart {
+    font-size: 25px;
+      color:red;
+  }
+
+.link-color{
+  color: black;
+}
+.audio-favorite audio { 
+  height: 40px; 
+  position: fixed; 
+  bottom:0%;
+  width:80%; 
+  opacity: 1;
+  margin-bottom: 1rem;
+}
