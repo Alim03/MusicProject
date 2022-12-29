@@ -3,6 +3,7 @@ from django.views.generic import ListView, TemplateView, DetailView
 from .models import Artist, Song, Album
 
 
+
 class Index(ListView):
     template_name = 'music/index.html'
     context_object_name = 'artists'
@@ -35,3 +36,4 @@ class AlbumDetail(DetailView):
         album=Album.objects.get(pk=id)
         context["songs"] = album.song_set.all()
         return context
+

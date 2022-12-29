@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'css_files' %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock%}
+
+{% block 'content'%}
+<br>
+<br>
+<form action="{% url 'register' %}" class="container w-25 p-3 text-center border border-light p-5 mt-5 rounded" method="POST" novalidate>
+        {% csrf_token %}
+        <p class="h4 mb-4 ">Sign Up</p>
+        {% for form in register_form %}
+        {{form}}
+        {{form.errors}}
+        {% endfor %}
+        <input class="btn btn-info btn-block my-4" type="submit" value="Sign Up"/>
+
+        <!-- Register -->
+</form>
+{% comment %} <form action="{% url 'register' %}" method="POST" novalidate>
+{% csrf_token %}
+{% for form in register_form %}
+<div class="form-control">
+    {{form.label_tag}}
+    {{form}}
+    {{form.errors}}
+</div>
+{% endfor %}
+<button>Save</button>
+</form> {% endcomment %}
+
+{% endblock%}
+
+
+
+
+
+
