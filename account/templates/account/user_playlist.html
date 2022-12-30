@@ -13,7 +13,7 @@
     
     <form method="POST" action="{% url 'delete-playlist' album.id %}">
         {% csrf_token %}<input class="btn btn-outline-dark mb-2" type="submit" value="Delete">
-        <a type="button" href="#" class="btn btn-outline-dark mb-2" data-mdb-ripple-color="dark"
+        <a type="button" href="{% url 'update-playlist' album.id %}" class="btn btn-outline-dark mb-2" data-mdb-ripple-color="dark"
     style="z-index: 1;">
     Edit
     </a>

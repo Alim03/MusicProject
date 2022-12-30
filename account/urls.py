@@ -11,5 +11,6 @@ urlpatterns = [
     path('profile/playlist/add', views.CreatePlaylist.as_view(), name='add-playlist'),
     path('profile/artists/', views.FavoriteArtists.as_view(), name='favorite-artists'),
     path('playlist/<int:pk>/delete/',views.DeletePlaylist.as_view(),name='delete-playlist'),
+    path('playlist/update/<int:pk>/',views.UpdatePlaylist.as_view(),name='update-playlist'),
     path('playlist/<int:playlistid>/<int:songid>/delete/',views.delete_palylist_song,name='delete-playlist-song')
 ]

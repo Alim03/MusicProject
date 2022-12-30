@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.views.generic import View, TemplateView, CreateView, ListView, DetailView, DeleteView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import View, TemplateView, CreateView, ListView, DetailView, DeleteView, UpdateView
 from django.contrib.auth import login, logout, authenticate
 from .forms import RegistrationForm, AuthenticationForm, PlaylistForm
 from django.http import HttpResponseRedirect, HttpResponse
@@ -78,7 +78,7 @@ class FavoriteSongs(TemplateView):
 
 class CreatePlaylist(CreateView):
     template_name = 'account/create_playlist.html'
-    success_url = '/account/profile'
+    success_url = reverse_lazy('profile-index')
     form_class = PlaylistForm
 
     def form_valid(self, form):
@@ -101,7 +101,7 @@ class FavoriteArtists(ListView):
 
 class PlayListView(DetailView):
     template_name = 'account/user_playlist.html'
-    model = Song
+    model = Playlist
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -114,7 +114,14 @@ class PlayListView(DetailView):
 
 class DeletePlaylist(DeleteView):
     model = Playlist
-    success_url = '/account/profile/'
+    success_url = reverse_lazy('profile-index')
+
+
+class UpdatePlaylist(UpdateView):
+    template_name='account/create_playlist.html'
+    model=Playlist
+    form_class=PlaylistForm
+    success_url = reverse_lazy('profile-index')
 
 
 def delete_palylist_song(request, playlistid, songid):
