@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'content' %}
+
+{% block 'css_files' %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+{% endblock%}
+
+<br>
+<div class="container">
+    {% include 'music/includes/album.html' %}
+    
+    <form method="POST" action="{% url 'delete-playlist' album.id %}">
+        {% csrf_token %}<input class="btn btn-outline-dark mb-2" type="submit" value="Delete">
+        <a type="button" href="#" class="btn btn-outline-dark mb-2" data-mdb-ripple-color="dark"
+    style="z-index: 1;">
+    Edit
+    </a>
+     </form>
+    
+    <div class="panel panel-default audio-panel">
+    {% include 'music/includes/audio.html' %}
+    </div>
+
+
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Cover</th>
+        <th scope="col">Title</th>
+        <th scope="col">Album</th>
+        <th scope="col">Artist</th>
+        {% if user.is_authenticated %}
+        <th scope="col">Like</th>
+        {% endif %}
+        <th scope="col">Operation</th>
+      </tr>
+    </thead>
+    <tbody id="playlist">
+        {% for song in songs %}
+        
+      <tr>
+        
+            <th scope="row">{{song.id}}</th>
+            <td class='user-playlist-td'><img class='user-playlist-image'  src="{{song.album.cover.url}}" alt=""></td>
+            <td><a class="audio-source" href="{{song.file.url}}">{{song.title}}  </a></td>   
+            <td>{{song.album.title}}</td>
+            <td>{{song.artist.name}}</td>
+            {% if user.is_authenticated %}
+            <td>
+              <a href="{% url 'add-song-to-favorite' song.album.id song.id %}">
+              <div>
+                 <i class="heart fa fa-heart-o"></i>
+              </div>
+            </a>
+            </td>
+            <td><a href="{% url 'delete-playlist-song' album.id song.id %}">Delete</a></td>
+            {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock%}
+
+{% block 'scripts' %}
+<script src="{% static 'js/scripts.js' %}"></script>
+{% endblock  %}

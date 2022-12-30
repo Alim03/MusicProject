@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Account
+from .models import Account, Playlist,Song
 from django.contrib.auth import authenticate
 
 
@@ -39,7 +39,7 @@ class RegistrationForm(UserCreationForm):
 
 class AuthenticationForm(forms.ModelForm):
 
-    password=forms.CharField(label='Password',widget=forms.PasswordInput)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
     class Meta:
         model = Account
@@ -48,14 +48,22 @@ class AuthenticationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
-             self.fields[field].widget.attrs.update({'class': 'form-control mb-4', 'placeholder': field.capitalize()})
-             
+            self.fields[field].widget.attrs.update(
+                {'class': 'form-control mb-4', 'placeholder': field.capitalize()})
+
     def clean(self):
         if self.is_valid():
             email = self.cleaned_data['email']
             password = self.cleaned_data['password']
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError('Wrong Email or Password')
-        
-        
-        
+
+
+class PlaylistForm(forms.ModelForm):
+    class Meta:
+        model = Playlist
+        fields = ('name', 'cover')
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control mb-4', 'placeholder': 'Name'})

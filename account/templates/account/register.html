@@ -19,18 +19,6 @@
 
         <!-- Register -->
 </form>
-{% comment %} <form action="{% url 'register' %}" method="POST" novalidate>
-{% csrf_token %}
-{% for form in register_form %}
-<div class="form-control">
-    {{form.label_tag}}
-    {{form}}
-    {{form.errors}}
-</div>
-{% endfor %}
-<button>Save</button>
-</form> {% endcomment %}
-
 {% endblock%}
 
 

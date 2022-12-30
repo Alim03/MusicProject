@@ -8,7 +8,8 @@
     <img class="card-img-top" src="{{artist.image.url}}" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">{{artist.name}}</h5>
-      <p class="card-text">{{artist.about}}</p>
+      <a type="button" href="{% url 'add-atrist-to-favorite' artist.id %}" class="btn btn-sm btn-outline-secondary">Add To Favorite</a>
+      <p class="card-text pt-3">{{artist.about}}</p>
    
     </div>
 <br>

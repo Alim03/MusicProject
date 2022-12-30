@@ -1,8 +1,14 @@
 
 <div class="row featurette">
   <div class="col-md-7 pt-5 {%if not forloop.first or not forloop.last %}order-md-2{% endif %} ">
-    <h2 class="featurette-heading">{{album.title}}</h2>
-    <p class="lead">{{album.released_date}} {{album.artist.name}}</p>
+    <h2 class="featurette-heading">{% if album.title %}{{album.title}}{% elif album.name%}{{album.name}}{% endif %}</h2>
+    <p class="lead">
+      {% if album.released_date and album.artist.name %}
+      {{album.released_date}} {{album.artist.name}}
+      {% elif album.user.username %}
+       Playlist By {{album.user.username}}
+      {% endif %}
+    </p>
   </div>
   <div class="col-md-5 {%if forloop.first or forloop.last %}order-md-2{% endif %}">
     <img src="{{album.cover.url}}" class="featurette-image img-fluid mx-auto"  alt="Generic placeholder image">

@@ -6,8 +6,8 @@
 
 
 {% block 'content'%}
-<section class="h-100 gradient-custom-2">
-    <div class="container py-5 h-100">
+<section class="h-100 gradient-custom-2 ">
+    <div class="container py-5 h-100 ">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-lg-9 col-xl-7">
           <div class="card">
@@ -16,10 +16,14 @@
                 <img src="{% if request.user.profile_image %}{{request.user.profile_image.url}}{% else %}{% static 'images/default-profile-pic.jpg' %}{% endif %}"
                   alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                   style="width: 150px; z-index: 1">
-                <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                <a type="button" href="#" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                   style="z-index: 1;">
                   Edit profile
-                </button>
+              </a>
+                <a type="button" href="{% url 'add-playlist' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                  style="z-index: 1;">
+                 Add Playlist
+              </a>
               </div>
               <div class="ms-3 pl-3" style="margin-top: 130px;">
                 <h5>{{request.user.username}}</h5>
@@ -35,8 +39,8 @@
                
               </div>
             </div>
-            <div class="card-body p-4 text-black">
-              <div class="mb-5">
+            <div class="card-body p-4 text-black pb-5">
+              <div class="mb-5 pt-5">
                 <p class="lead fw-normal mb-1">About</p>
                 <div class="p-4" style="background-color: #f8f9fa;">
                   <p class="font-italic mb-1">Web Developer</p>
@@ -65,7 +69,7 @@
 
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <p class="lead fw-normal mb-0">Favorite Artists</p>
-                <p class="mb-0"><a href="" class="text-muted">Show all</a></p>
+                <p class="mb-0"><a href="{% url 'favorite-artists' %}" class="text-muted">Show all</a></p>
               </div>
 
               <div class="row g-2">
@@ -86,21 +90,21 @@
 
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <p class="lead fw-normal mb-0">Playlists</p>
-                <p class="mb-0"><a href="" class="text-muted">Show all</a></p>
+                <p class="mb-0"><a href="#" class="text-muted">Show all</a></p>
               </div>
 
               <div class="row g-2">
-                {% comment %} {% for artist in artists %} {% endcomment %}
+                 {% for playlist in playlists %}
                 
                   <div class="col mb-2">
-                    <img src=""
+                    <img src="{{playlist.cover.url}}"
                       alt="image 1" class="w-100 rounded-3">
-                    <a class="link-color" href="">
-                      <p class="text-center"></p>
+                    <a class="link-color" href="{% url 'playlist' playlist.id %}">
+                      <p class="text-center">{{playlist.name}}</p>
                     </a>
                   </div>
                 
-                {% comment %} {% endfor %} {% endcomment %}
+                {% endfor %}
               </div>
              
 
