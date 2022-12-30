@@ -63,7 +63,45 @@
                 {% endfor %}
               </div>
 
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <p class="lead fw-normal mb-0">Favorite Artists</p>
+                <p class="mb-0"><a href="" class="text-muted">Show all</a></p>
+              </div>
 
+              <div class="row g-2">
+                {% for artist in artists %}
+                
+                  <div class="col mb-2">
+                    <img src="{{artist.image.url}}"
+                      alt="image 1" class="w-100 rounded-3">
+                    <a class="link-color" href="{% url 'artist-detail' artist.id %}">
+                      <p class="text-center">{{artist.name}}</p>
+                    </a>
+                  </div>
+                
+                {% endfor %}
+              </div>
+              
+
+
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <p class="lead fw-normal mb-0">Playlists</p>
+                <p class="mb-0"><a href="" class="text-muted">Show all</a></p>
+              </div>
+
+              <div class="row g-2">
+                {% comment %} {% for artist in artists %} {% endcomment %}
+                
+                  <div class="col mb-2">
+                    <img src=""
+                      alt="image 1" class="w-100 rounded-3">
+                    <a class="link-color" href="">
+                      <p class="text-center"></p>
+                    </a>
+                  </div>
+                
+                {% comment %} {% endfor %} {% endcomment %}
+              </div>
              
 
 

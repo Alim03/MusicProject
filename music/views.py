@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView, DetailView
 from .models import Artist, Song, Album
-from account.models import Account
 from django.http import HttpResponse
 
 

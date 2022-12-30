@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView, ListView
-from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from .forms import RegistrationForm, AuthenticationForm
-from .models import Account
 
 
 class Index(TemplateView):
@@ -12,6 +10,7 @@ class Index(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['songs'] = self.request.user.songs.order_by('-id').all()[:4]
+        context['artists'] = self.request.user.artists.order_by('-id').all()[:4]
         return context
 
 

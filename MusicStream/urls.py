@@ -21,6 +21,6 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('music.urls')),
-    path('artist/', include('artist.urls')),
+    path('artists/', include('artist.urls')),
     path('account/', include('account.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
