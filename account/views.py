@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import View, TemplateView, CreateView, ListView, DetailView, DeleteView, UpdateView
 from django.contrib.auth import login, logout, authenticate
-from .forms import RegistrationForm, AuthenticationForm, PlaylistForm
+from .forms import RegistrationForm, AuthenticationForm, PlaylistForm,UpdateProfileForm,ChangePasswordAccountForm
 from django.http import HttpResponseRedirect, HttpResponse
 from artist.models import Artist
 from music.models import Song
-from account.models import Playlist
+from account.models import Account, Playlist
+from django.contrib.auth.views import PasswordChangeView
+
 
 
 class Index(TemplateView):
@@ -21,6 +23,18 @@ class Index(TemplateView):
             '-id').all()[:4]
         return context
 
+class UpdateAccount(UpdateView):
+    template_name='account/update_account.html'
+    model=Account
+    form_class=UpdateProfileForm
+    
+   
+
+class AccountChangePasswordView(PasswordChangeView):
+    template_name = 'account/change_password.html'
+    model=Account
+    success_url=reverse_lazy('profile-index')
+    form_class=ChangePasswordAccountForm
 
 class Register(View):
 

@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import Account, Playlist,Song
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import PasswordChangeForm
+
 
 
 class RegistrationForm(UserCreationForm):
@@ -47,9 +49,7 @@ class AuthenticationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs.update(
-                {'class': 'form-control mb-4', 'placeholder': field.capitalize()})
+        update_form_field_attrs(self.fields)
 
     def clean(self):
         if self.is_valid():
@@ -58,6 +58,24 @@ class AuthenticationForm(forms.ModelForm):
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError('Wrong Email or Password')
 
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ('email','username','profile_image')
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        update_form_field_attrs(self.fields)
+
+
+class ChangePasswordAccountForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['old_password'].widget.attrs.update({'class': 'form-control mb-4', 'placeholder': 'Old Password'})
+        self.fields['new_password1'].widget.attrs.update({'class': 'form-control mb-4', 'placeholder': 'New Password'})
+        self.fields['new_password2'].widget.attrs.update({'class': 'form-control mb-4', 'placeholder': 'Repeat New Password'})
+
+                
 
 class PlaylistForm(forms.ModelForm):
     class Meta:
@@ -67,3 +85,8 @@ class PlaylistForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control mb-4', 'placeholder': 'Name'})
+
+def update_form_field_attrs(fields):
+    for field in fields:
+            fields[field].widget.attrs.update(
+                {'class': 'form-control mb-4', 'placeholder': field.capitalize()})

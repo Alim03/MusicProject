@@ -16,14 +16,19 @@
                 <img src="{% if request.user.profile_image %}{{request.user.profile_image.url}}{% else %}{% static 'images/default-profile-pic.jpg' %}{% endif %}"
                   alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                   style="width: 150px; z-index: 1">
-                <a type="button" href="#" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                <a type="button" href="{% url 'update-account' request.user.id %}" class="btn btn-outline-dark mt-1" data-mdb-ripple-color="dark"
                   style="z-index: 1;">
                   Edit profile
               </a>
-                <a type="button" href="{% url 'add-playlist' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+              <a type="button" href="{% url 'change-password' request.user.id %}" class="btn btn-outline-dark mt-1" data-mdb-ripple-color="dark"
+              style="z-index: 1;">
+             Change Password
+          </a>
+                <a type="button" href="{% url 'add-playlist' %}" class="btn btn-outline-dark mt-1" data-mdb-ripple-color="dark"
                   style="z-index: 1;">
                  Add Playlist
               </a>
+            
               </div>
               <div class="ms-3 pl-3" style="margin-top: 130px;">
                 <h5>{{request.user.username}}</h5>
@@ -41,7 +46,7 @@
             </div>
             <div class="card-body p-4 text-black pb-5">
               <div class="mb-5 pt-5">
-                <p class="lead fw-normal mb-1">About</p>
+                <p class="lead fw-normal mt-5 mb-1">About</p>
                 <div class="p-4" style="background-color: #f8f9fa;">
                   <p class="font-italic mb-1">Web Developer</p>
                   <p class="font-italic mb-1">Lives in New York</p>
