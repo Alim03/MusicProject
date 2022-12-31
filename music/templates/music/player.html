@@ -27,7 +27,7 @@
           <p class="mb-0">{{song.title}}</p>
   
           
-          {% include 'music/includes/audio.html' %}
+          {% include 'includes/audio.html' %}
         
   
         </div>
@@ -36,24 +36,6 @@
     </div>
   </div>
   {% endblock 'content' %}
-  <!-- Content -->
-
-    {% comment %} <tbody>
-        {% for record in song  %}
-           <tr>
-             <th scope="row">{{ record.rid }}</th>
-             <td>{{ record.title }}
-             <td>{{ record.album.title }}
-             <td>{{ record.artist.name }}
-            
-             <td> <audio controls id="player">
-               <source src="{{record.file.url}}" type="audio/wav">
-               
-             </audio>
-            </tr>
-          {% endfor %}
-   </tbody>
- </table> {% endcomment %}
 
 </body>
 </html>

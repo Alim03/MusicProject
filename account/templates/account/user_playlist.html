@@ -9,7 +9,7 @@
 
 <br>
 <div class="container">
-    {% include 'music/includes/album.html' %}
+    {% include 'includes/album.html' %}
     
     <form method="POST" action="{% url 'delete-playlist' album.id %}">
         {% csrf_token %}<input class="btn btn-outline-dark mb-2" type="submit" value="Delete">
@@ -20,7 +20,7 @@
      </form>
     
     <div class="panel panel-default audio-panel">
-    {% include 'music/includes/audio.html' %}
+    {% include 'includes/audio.html' %}
     </div>
 
 

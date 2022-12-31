@@ -8,7 +8,7 @@
 
     {% for album in albums %}
     <a style="text-decoration: none;color:#5A5A5A" href="{% url 'album-detail' album.id %}">
-        {% include 'music/includes/album.html' %}
+        {% include 'includes/album.html' %}
     </a>
     {% endfor %}
       <hr class="featurette-divider">
@@ -16,7 +16,7 @@
     <h1 class="ml-4">Top Artists</h1>
     <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
         {% for artist in artists %}
-             {% include 'artist/includes/artist.html' %}
+             {% include 'includes/artist.html' %}
         {% endfor %}
     </div>
 
