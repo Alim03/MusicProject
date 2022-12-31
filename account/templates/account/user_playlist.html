@@ -50,7 +50,7 @@
             <td>{{song.artist.name}}</td>
             {% if user.is_authenticated %}
             <td>
-              <a href="{% url 'add-song-to-favorite' song.album.id song.id %}">
+              <a href="{% url 'add-song-to-favorite' song.id %}">
               <div>
                  <i class="heart fa fa-heart-o"></i>
               </div>

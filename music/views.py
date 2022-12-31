@@ -34,11 +34,19 @@ class AlbumDetail(DetailView):
         context = super().get_context_data(**kwargs)
         id = self.kwargs['pk']
         album = Album.objects.get(pk=id)
-        context["songs"] = album.song_set.all()
+        all_songs = album.song_set.all()
+        liked_list = list()
+        for song in all_songs:
+            try:
+                self.request.user.songs.get(pk=song.id)
+                liked_list.append(1)
+            except:
+                liked_list.append(0)
+        context["songs"] = zip(all_songs, liked_list)
         return context
 
 
-def add_song_to_favorite(request, pk, songId):
+def add_or_remove_song_from_favorite(request, songId):
     song = Song.objects.get(pk=songId)
     try:
         request.user.songs.get(pk=songId)

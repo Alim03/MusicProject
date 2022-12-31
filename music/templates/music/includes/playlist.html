@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody id="playlist">
-        {% for song in songs %}
+        {% for song,like in songs %}
         
       <tr>
         
@@ -24,9 +24,14 @@
             <td>{{song.artist.name}}</td>
             {% if user.is_authenticated %}
             <td>
-              <a href="{% url 'add-song-to-favorite' song.album.id song.id %}">
+              <a href="{% url 'add-song-to-favorite' song.id %}">
               <div>
+              {% if like  %}
+                <i class="heart fa fa-heart"></i>
+              {% else %}
                  <i class="heart fa fa-heart-o"></i>
+            {% endif %}
+
               </div>
             </a>
             </td>
