@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView, DetailView
 from .models import Artist, Song, Album
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
+from shared.songs_utils import songs_and_is_liked_or_not
 
 
 class Index(ListView):
@@ -35,14 +36,8 @@ class AlbumDetail(DetailView):
         id = self.kwargs['pk']
         album = Album.objects.get(pk=id)
         all_songs = album.song_set.all()
-        liked_list = list()
-        for song in all_songs:
-            try:
-                self.request.user.songs.get(pk=song.id)
-                liked_list.append(1)
-            except:
-                liked_list.append(0)
-        context["songs"] = zip(all_songs, liked_list)
+        songs = songs_and_is_liked_or_not(all_songs, self.request.user)
+        context["songs"] = songs
         return context
 
 
@@ -53,4 +48,5 @@ def add_or_remove_song_from_favorite(request, songId):
         request.user.songs.remove(song)
     except:
         request.user.songs.add(song)
-    return HttpResponse()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+

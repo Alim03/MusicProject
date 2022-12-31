@@ -39,11 +39,11 @@
       </tr>
     </thead>
     <tbody id="playlist">
-        {% for song in songs %}
+      {% for song,like in songs %}
         
       <tr>
         
-            <th scope="row">{{song.id}}</th>
+            <th scope="row">{{ forloop.counter }}</th>
             <td class='user-playlist-td'><img class='user-playlist-image'  src="{{song.album.cover.url}}" alt=""></td>
             <td><a class="audio-source" href="{{song.file.url}}">{{song.title}}  </a></td>   
             <td>{{song.album.title}}</td>
@@ -51,9 +51,13 @@
             {% if user.is_authenticated %}
             <td>
               <a href="{% url 'add-song-to-favorite' song.id %}">
-              <div>
-                 <i class="heart fa fa-heart-o"></i>
-              </div>
+                <div>
+                  {% if like  %}
+                    <i class="heart fa fa-heart"></i>
+                  {% else %}
+                     <i class="heart fa fa-heart-o"></i>
+                {% endif %}
+                  </div>
             </a>
             </td>
             <td><a href="{% url 'delete-playlist-song' album.id song.id %}">Delete</a></td>

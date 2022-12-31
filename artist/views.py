@@ -3,6 +3,7 @@ from django.views.generic import DetailView, ListView
 from .models import Artist
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from shared.songs_utils import songs_and_is_liked_or_not
 
 
 class AtristDetail(DetailView):
@@ -15,7 +16,9 @@ class AtristDetail(DetailView):
         pk = self.kwargs['pk']
         artist = Artist.objects.get(pk=pk)
         context['albums'] = artist.album_set.all()
-        context['songs'] = artist.song_set.all()[:5]
+        songs = artist.song_set.all()[:5]
+        songs = songs_and_is_liked_or_not(songs, self.request.user)
+        context['songs'] = songs
         try:
             self.request.user.artists.get(pk=pk)
             favorite = 1

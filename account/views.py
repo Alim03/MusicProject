@@ -8,6 +8,7 @@ from artist.models import Artist
 from music.models import Song
 from account.models import Account, Playlist
 from django.contrib.auth.views import PasswordChangeView
+from shared.songs_utils import songs_and_is_liked_or_not
 
 
 
@@ -86,7 +87,9 @@ class FavoriteSongs(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['songs'] = self.request.user.songs.all()
+        songs=self.request.user.songs.all()
+        songs=songs_and_is_liked_or_not(songs,self.request.user)
+        context['songs'] = songs
         return context
 
 
@@ -122,7 +125,8 @@ class PlayListView(DetailView):
         id = self.kwargs['pk']
         playlist = Playlist.objects.get(pk=id)
         context['album'] = playlist
-        context["songs"] = playlist.song.all()
+        songs=songs_and_is_liked_or_not(playlist.song.all(),self.request.user)
+        context["songs"] = songs
         return context
 
 
