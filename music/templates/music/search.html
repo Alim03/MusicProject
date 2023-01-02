@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load class_name %}
+
+{% block 'content' %}
+
+
+<div class="container marketing">
+<div class='row title-row my-5'>
+    <div class='col-12 py-0'>
+        <h3 class='my-0 py-0'>{{ count }} results for <b>{{ query }}</b></h3>
+    </div>
+</div>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="row">
+
+{% for object in page_obj %}
+    {% with object|class_name as klass %}
+        {% if klass == 'Album' %}
+            <div class="col-md-3">
+              <div class="card mb-3 box-shadow">
+                <img class="card-img-top" src="{{object.cover.url}}" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">{{object.title}}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <a type="button" href="{% url 'album-detail' object.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+                    </div>
+                    <small class="text-muted">Album</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+        {% elif klass == 'Song' %}
+        <div class="col-md-3">
+            <div class="card mb-3 box-shadow">
+              <img class="card-img-top" src="{{object.album.cover.url}}" alt="Card image cap">
+              <div class="card-body">
+                <p class="card-text">{{object.title}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a type="button" href="{% url 'play' object.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+                </div>
+                <small class="text-muted">Song</small>
+                </div>
+              </div>
+            </div>
+          </div>
+ 
+       {% elif klass == 'Artist' %}
+       <div class="col-md-3">
+        <div class="card mb-3 box-shadow">
+          <img class="card-img-top" src="{{object.image.url}}" alt="Card image cap">
+          <div class="card-body">
+            <p class="card-text">{{object.name}}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <a type="button" href="{% url 'artist-detail' object.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+            </div>
+            <small class="text-muted">Artist</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+{% empty %}
+<div class='row'>
+    <div class='col-12 col-md-6 mx-auto my-5 py-5'>
+    <form method='GET' class='' action='.'>
+
+        <div class="input-group form-group-no-border mx-auto" style="margin-bottom: 0px; font-size: 32px;">
+            <span class="input-group-addon cfe-nav" style='color:#000'>
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+            <input type="text" name="q" data-toggle="popover" data-placement="bottom" data-content="Press enter to search" class="form-control cfe-nav mt-0 py-3" placeholder="Search..." value="" style="" data-original-title="" title="" autofocus="autofocus">
+        </div>
+
+    </form>
+
+    </div>
+</div>
+{% endfor %}
+         
+
+
+<!--Pagination-->
+<nav aria-label="Page navigation example ">
+    <ul class="pagination justify-content-center ">
+    {% if page_obj.has_previous %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ query|urlencode }}">Previous</a>
+      </li>
+    {% else %}
+        <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+      </li>
+    {% endif %}
+
+    {% if page_obj.number|add:'-4' > 1 %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'-5' }}&q={{ query|urlencode }}">&hellip;</a></li>
+    {% endif %}
+
+    {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+            <li class="page-item active" aria-current="page">
+          <span class="page-link">
+            {{ i }}
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+        {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+             <li class="page-item"><a class="page-link" href="?page={{ i }}&q={{ query|urlencode }}">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+       <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'5' }}&q={{ query|urlencode }}">&hellip;</a></li>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ query|urlencode }}">Next</a>
+      </li>
+    {% else %}
+        <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+ <!--end of Pagination-->
+
+       
+</div>
+</div>
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+{% endblock%}

@@ -6,6 +6,8 @@ from shared.songs_utils import songs_and_is_liked_or_not
 from .forms import CommentForm
 from account.models import Review
 from django.urls import reverse
+from itertools import chain
+
 
 
 class Index(ListView):
@@ -23,7 +25,33 @@ class Index(ListView):
         context['albums'] = Album.objects.all().order_by('-id')[:3]
         return context
 
+class Search(ListView):
+    template_name='music/search.html'
+    paginate_by=20
+    count=0
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['count'] = self.count or 0
+        context['query'] = self.request.GET.get('q')
+        return context
+    
+    def get_queryset(self):
+        request=self.request
+        query=request.GET.get('q',None)
+        if query is not None:
+            albums=Album.objects.search(query)
+            songs=Song.objects.search(query)
+            artists=Artist.objects.search(query)
+
+            query_chain=chain(albums,songs,artists)
+            query_chain=list(query_chain)
+            self.count=len(query_chain)
+            return query_chain
+            
+        return Album.objects.none()
+    
+    
 class Play(DetailView):
     template_name = 'music/player.html'
     model = Song
