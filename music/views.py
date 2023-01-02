@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, TemplateView, DetailView
+from django.views.generic import ListView, View, DetailView, CreateView
 from .models import Artist, Song, Album
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from shared.songs_utils import songs_and_is_liked_or_not
+from .forms import CommentForm
+from account.models import Review
+from django.urls import reverse
 
 
 class Index(ListView):
@@ -26,19 +29,28 @@ class Play(DetailView):
     model = Song
 
 
-class AlbumDetail(DetailView):
+def album_detail(request, pk):
     template_name = 'music/album_detail.html'
-    context_object_name = 'album'
-    model = Album
+    album = Album.objects.get(pk=pk)
+    all_songs = album.song_set.all()
+    comments = album.review_set.all().order_by('-date')
+    songs = songs_and_is_liked_or_not(all_songs, request.user)
+    if request.method == 'POST':
+        post_dict = request.POST.copy() 
+        form = CommentForm(post_dict)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.album = album
+            new_comment.user = request.user
+            new_comment.save()
+            form = CommentForm()
+            return render(request, template_name, 
+            {'form': form, 'album': album, 'songs': songs, 'comments': comments})
+    else:
+        form = CommentForm()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        id = self.kwargs['pk']
-        album = Album.objects.get(pk=id)
-        all_songs = album.song_set.all()
-        songs = songs_and_is_liked_or_not(all_songs, self.request.user)
-        context["songs"] = songs
-        return context
+    return render(request, template_name, 
+    {'form': form, 'album': album, 'songs': songs, 'comments': comments})
 
 
 def add_or_remove_song_from_favorite(request, songId):
@@ -49,4 +61,3 @@ def add_or_remove_song_from_favorite(request, songId):
     except:
         request.user.songs.add(song)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-

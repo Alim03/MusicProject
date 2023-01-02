@@ -1,8 +1,9 @@
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 from . import views
 
 urlpatterns = [
-    path('profile/', views.Index.as_view(), name='profile-index'),
+    path('profile/', login_required(views.Index.as_view()), name='profile-index'),
     path('profile/update/<int:pk>', views.UpdateAccount.as_view(), name='update-account'),
     path('profile/change-password/<int:pk>', views.AccountChangePasswordView.as_view(), name='change-password'),
     path('register/', views.Register.as_view(), name='register'),

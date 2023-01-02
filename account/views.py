@@ -9,7 +9,7 @@ from music.models import Song
 from account.models import Account, Playlist
 from django.contrib.auth.views import PasswordChangeView
 from shared.songs_utils import songs_and_is_liked_or_not
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class Index(TemplateView):
@@ -24,14 +24,14 @@ class Index(TemplateView):
             '-id').all()[:4]
         return context
 
-class UpdateAccount(UpdateView):
+class UpdateAccount(LoginRequiredMixin,UpdateView):
     template_name='account/update_account.html'
     model=Account
     form_class=UpdateProfileForm
     
    
 
-class AccountChangePasswordView(PasswordChangeView):
+class AccountChangePasswordView(LoginRequiredMixin,PasswordChangeView):
     template_name = 'account/change_password.html'
     model=Account
     success_url=reverse_lazy('profile-index')
@@ -82,7 +82,7 @@ class LogIn(View):
         return render(request, 'account/login.html', {'login_form': form})
 
 
-class FavoriteSongs(TemplateView):
+class FavoriteSongs(LoginRequiredMixin,TemplateView):
     template_name = 'account/favorite_songs.html'
 
     def get_context_data(self, **kwargs):
@@ -93,7 +93,7 @@ class FavoriteSongs(TemplateView):
         return context
 
 
-class CreatePlaylist(CreateView):
+class CreatePlaylist(LoginRequiredMixin,CreateView):
     template_name = 'account/create_playlist.html'
     success_url = reverse_lazy('profile-index')
     form_class = PlaylistForm
@@ -105,7 +105,7 @@ class CreatePlaylist(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class FavoriteArtists(ListView):
+class FavoriteArtists(LoginRequiredMixin,ListView):
     template_name = 'artist/all_artists.html'
     model = Artist
     paginate_by = 9
@@ -116,7 +116,7 @@ class FavoriteArtists(ListView):
         return query
 
 
-class PlayListView(DetailView):
+class PlayListView(LoginRequiredMixin,DetailView):
     template_name = 'account/user_playlist.html'
     model = Playlist
 
@@ -130,12 +130,12 @@ class PlayListView(DetailView):
         return context
 
 
-class DeletePlaylist(DeleteView):
+class DeletePlaylist(LoginRequiredMixin,DeleteView):
     model = Playlist
     success_url = reverse_lazy('profile-index')
 
 
-class UpdatePlaylist(UpdateView):
+class UpdatePlaylist(LoginRequiredMixin,UpdateView):
     template_name='account/create_playlist.html'
     model=Playlist
     form_class=PlaylistForm
